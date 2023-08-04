@@ -1,130 +1,148 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class skillspage extends StatefulWidget {
-  const skillspage({super.key});
-
+class SkillPage extends StatefulWidget {
   @override
-  State<skillspage> createState() => _skillspageState();
+  _SkillPageState createState() => _SkillPageState();
 }
 
-class _skillspageState extends State<skillspage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      color: Colors.black,
-
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(height: 50),
-          Container(
-            height: 40,
-            width: 400,
-            //color: Colors.white54,
-            child: Center(
-
-              child: Text(
-                "My Skills!",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.yellow,
-                ),
-              ),
-
-            ),
-
-          ),
-          SizedBox(height: 40,),
-          Container(
-            height: 600,
-            width: 400,
-            //color: Colors.white54,
-            child: Column(
-              children: [
-                AnimatedTopicGrid(
-                  topic: "Flutter",
-                  icon: Icons.smartphone,
-                ),
-                Row(
-                  children: [
-                    AnimatedTopicGrid(
-                      topic: "Dart",
-                      icon: Icons.code,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    AnimatedTopicGrid(
-                      topic: "Firebase",
-                      icon: Icons.fireplace,
-                    ),
-                  ],
-                ),
-                AnimatedTopicGrid(
-                  topic: "Scraping",
-                  icon: Icons.web,
-                ),
-              ],
-            ),
-          ),
-    ]));
-  }
-}
-
-class AnimatedTopicGrid extends StatefulWidget {
-  final String topic;
-  final IconData icon;
-
-  AnimatedTopicGrid({required this.topic, required this.icon});
-
-  @override
-  _AnimatedTopicGridState createState() => _AnimatedTopicGridState();
-}
-
-class _AnimatedTopicGridState extends State<AnimatedTopicGrid>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _SkillPageState extends State<SkillPage> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
-    );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    _controller.forward();
+    )..repeat(reverse: true);
+
+    _startScraping();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _animationController.dispose();
     super.dispose();
+  }
+
+  Future<void> _startScraping() async {
+    // Simulate scraping data asynchronously
+    await Future.delayed(Duration(seconds: 2));
+
+    // Once scraping is done, update the UI
+    setState(() {
+      // Update your UI elements here
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: FadeTransition(
-        opacity: _animation,
+    return Scaffold(
+
+      body: Center(
         child: Container(
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black),
-          ),
+          height: double.infinity,
+          width: double.infinity,
+          color: Colors.black,
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(widget.icon, size: 50),
-              SizedBox(height: 10),
-              Text(widget.topic, style: TextStyle(fontSize: 18)),
+              // Your other UI elements here
+
+              // Animated skill widget
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.rotate(
+                    angle: _animationController.value * 2.0 * 3.14159,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      'Flutter',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 30,),
+
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.rotate(
+                    angle: _animationController.value * 2.0 * 3.14159,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      'Dart',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+
+
+SizedBox(height: 30,),
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.rotate(
+                    angle: _animationController.value * 2.0 * 3.14159,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      'Firebase',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 30,),
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.rotate(
+                    angle: _animationController.value * 2.0 * 3.14159,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      'Scraping',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+
+
+              // Display scraped data from Firebase
+
             ],
           ),
         ),
@@ -132,18 +150,3 @@ class _AnimatedTopicGridState extends State<AnimatedTopicGrid>
     );
   }
 }
-            //color: Colors.yellow,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
