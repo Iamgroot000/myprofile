@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myprofile/skills.dart';
 
+import 'boom.dart';
+
 class page1 extends StatefulWidget {
   const page1({super.key});
 
@@ -47,7 +49,7 @@ class _page1State extends State<page1> {
                 child: ElevatedButton(
                   onPressed: () { Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SkillPage()), // Replace SecondScreen() with your desired screen widget
+                    MaterialPageRoute(builder: (context) => MyApp ()), // Replace SecondScreen() with your desired screen widget
                   );},
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
