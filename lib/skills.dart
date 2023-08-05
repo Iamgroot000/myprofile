@@ -4,7 +4,7 @@ class SkillPage extends StatefulWidget {
   @override
   _SkillPageState createState() => _SkillPageState();
 }
-
+/// SingleTickerProviderStateMixin use for the animation
 class _SkillPageState extends State<SkillPage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   bool isAnimating = true;
