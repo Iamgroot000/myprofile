@@ -7,7 +7,7 @@ void main() {
     home: Scaffold(
 
       body: Center(
-        child: MyCustomSplashScreen(),
+        child: MyCustomLoginUI(),
       ),
     ),
   ));

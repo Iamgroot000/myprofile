@@ -1,63 +1,52 @@
 
 
 
-import 'dart:async';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myprofile/page1.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'main.dart';
 
-class MyCustomSplashScreen extends StatefulWidget {
+class MyCustomLoginUI extends StatefulWidget {
 @override
-_MyCustomSplashScreenState createState() => _MyCustomSplashScreenState();
+_MyCustomLoginUIState createState() => _MyCustomLoginUIState();
 }
 
-class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
-with TickerProviderStateMixin {
-double _fontSize = 2;
-double _containerSize = 1.5;
-double _textOpacity = 0.0;
-double _containerOpacity = 0.0;
-
+class _MyCustomLoginUIState extends State<MyCustomLoginUI>
+with SingleTickerProviderStateMixin {
 late AnimationController _controller;
-late Animation<double> animation1;
+late Animation<double> _animation;
 
 @override
 void initState() {
 super.initState();
 
-_controller =
-AnimationController(vsync: this, duration: Duration(seconds: 3));
+_controller = AnimationController(
+vsync: this,
+duration: Duration(seconds: 2),
+);
 
-animation1 = Tween<double>(begin: 40, end: 20).animate(CurvedAnimation(
-parent: _controller, curve: Curves.fastLinearToSlowEaseIn))
-..addListener(() {
-setState(() {
-_textOpacity = 1.0;
-});
-});
+_animation = Tween<double>(begin: .7, end: 1).animate(
+CurvedAnimation(
+parent: _controller,
+curve: Curves.ease,
+),
+)..addListener(
+() {
+setState(() {});
+},
+)..addStatusListener(
+(status) {
+if (status == AnimationStatus.completed) {
+_controller.reverse();
+} else if (status == AnimationStatus.dismissed) {
+_controller.forward();
+}
+},
+);
 
 _controller.forward();
-
-Timer(Duration(seconds: 2), () {
-setState(() {
-_fontSize = 1.06;
-});
-});
-
-Timer(Duration(seconds: 2), () {
-setState(() {
-_containerSize = 2;
-_containerOpacity = 1;
-});
-});
-
-Timer(Duration(seconds: 4), () {
-setState(() {
-//Navigator.pushReplacement(context, PageTransition(SecondPage()));
-});
-});
 }
 
 @override
@@ -70,84 +59,176 @@ super.dispose();
 Widget build(BuildContext context) {
 double _width = MediaQuery.of(context).size.width;
 double _height = MediaQuery.of(context).size.height;
-
 return Scaffold(
-backgroundColor: Colors.deepPurple,
-body: Stack(
+backgroundColor: Color(0xff292C31),
+body: ScrollConfiguration(
+behavior: MyBehavior(),
+child: SingleChildScrollView(
+child: SizedBox(
+height: _height,
+child: Column(
 children: [
-Column(
+Expanded(child: SizedBox()),
+Expanded(
+flex: 4,
+child: Column(
+mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 children: [
-AnimatedContainer(
-duration: Duration(milliseconds: 2000),
-curve: Curves.fastLinearToSlowEaseIn,
-height: _height / _fontSize
-),
-AnimatedOpacity(
-duration: Duration(milliseconds: 1000),
-opacity: _textOpacity,
-child: Text(
-'MyProfile',
+SizedBox(),
+Text(
+'SIGN IN',
 style: TextStyle(
-color: Colors.white,
-fontWeight: FontWeight.bold,
-fontSize: animation1.value,
+fontSize: 25,
+fontWeight: FontWeight.w600,
+color: Color(0xffA9DED8),
 ),
+),
+SizedBox(),
+component1(Icons.account_circle_outlined, 'User name...',
+false, false),
+component1(Icons.email_outlined, 'Email...', false, true),
+component1(
+Icons.lock_outline, 'Password...', true, false),
+Row(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+RichText(
+text: TextSpan(
+text: 'Forgotten password!',
+style: TextStyle(
+color: Color(0xffA9DED8),
+),
+recognizer: TapGestureRecognizer()
+..onTap = () {
+HapticFeedback.lightImpact();
+Fluttertoast.showToast(
+msg:
+'Forgotten password! button pressed');
+},
+),
+),
+SizedBox(width: _width / 10),
+RichText(
+text: TextSpan(
+text: 'Create a new Account',
+style: TextStyle(color: Color(0xffA9DED8)),
+recognizer: TapGestureRecognizer()
+..onTap = () {
+HapticFeedback.lightImpact();
+Fluttertoast.showToast(
+msg: 'Create a new Account button pressed',
+);
+},
 ),
 ),
 ],
+),
+],
+),
+),
+Expanded(
+flex: 3,
+child: Stack(
+children: [
+Center(
+child: Container(
+margin: EdgeInsets.only(bottom: _width * .07),
+height: _width * .7,
+width: _width * .7,
+decoration: BoxDecoration(
+shape: BoxShape.circle,
+gradient: LinearGradient(
+colors: [
+Colors.transparent,
+Colors.transparent,
+Color(0xff09090A),
+],
+begin: Alignment.topCenter,
+end: Alignment.bottomCenter,
+),
+),
+),
 ),
 Center(
-child: AnimatedOpacity(
-duration: Duration(milliseconds: 2000),
-curve: Curves.fastLinearToSlowEaseIn,
-opacity: _containerOpacity,
-child: AnimatedContainer(
-duration: Duration(milliseconds: 2000),
-curve: Curves.fastLinearToSlowEaseIn,
-height: _width / _containerSize,
-width: _width / _containerSize,
+child: Transform.scale(
+scale: _animation.value,
+child: InkWell(
+splashColor: Colors.transparent,
+highlightColor: Colors.transparent,
+onTap: () {
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+      builder: (context) => Profile()));
+},
+child: Container(
+height: _width * .2,
+width: _width * .2,
 alignment: Alignment.center,
 decoration: BoxDecoration(
-color: Colors.white,
-borderRadius: BorderRadius.circular(30),
+color: Color(0xffA9DED8),
+shape: BoxShape.circle,
 ),
-// child: Image.asset('assets/images/file_name.png')
-child:
-  OutlinedButton(
-  style: ButtonStyle(
-  backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow),
-  // You can add more styles here as needed, like padding, shape, etc.
-  ),
-  onPressed: () {
-  Navigator.push(
-  context,
-  MaterialPageRoute(builder: (context) => Profile()), // Replace Profile() with your desired destination widget
-  );
-  },
-  
-
- child: Container(
-        height: 40,
-  width: 300,
-        decoration: BoxDecoration(
-          color: Colors.yellow, // Set your desired background color
-          borderRadius: BorderRadius.circular(20.0), // Set your desired border radius
-
-        ),
-  child: Center(child: Text('Visit MyProfile'))),
-  ),
-
-
-
+child: Text(
+'SIGN-IN',
+style: TextStyle(
+color: Colors.black,
+fontWeight: FontWeight.w600,
 ),
 ),
 ),
-
+),
+),
+),
 ],
+),
+),
+],
+),
+),
+),
+),
+);
+}
+
+Widget component1(
+IconData icon, String hintText, bool isPassword, bool isEmail) {
+double _width = MediaQuery.of(context).size.width;
+return Container(
+height: _width / 8,
+width: _width / 1.22,
+alignment: Alignment.center,
+padding: EdgeInsets.only(right: _width / 30),
+decoration: BoxDecoration(
+color: Color(0xff212428),
+borderRadius: BorderRadius.circular(15),
+),
+child: TextField(
+style: TextStyle(color: Colors.white.withOpacity(.9)),
+obscureText: isPassword,
+keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
+decoration: InputDecoration(
+prefixIcon: Icon(
+icon,
+color: Colors.white.withOpacity(.7),
+),
+border: InputBorder.none,
+hintMaxLines: 1,
+hintText: hintText,
+hintStyle: TextStyle(
+fontSize: 14,
+color: Colors.white.withOpacity(.5),
+),
+),
 ),
 );
 }
 }
 
-
-
+class MyBehavior extends ScrollBehavior {
+@override
+Widget buildViewportChrome(
+BuildContext context, Widget child, AxisDirection axisDirection) {
+return child;
+}
+}
