@@ -184,7 +184,7 @@ class _page1State extends State<page1> {
           bottom: 0, // Aligns the bottom edge of the child to the bottom edge of the Stack
           right: 100,  // Aligns the right edge of the child to the right edge of the Stack
           child: Container(
-            height: 160,
+            height: 240,
             width: 200,
             child: RadialMenu(
     children: [
@@ -193,10 +193,11 @@ class _page1State extends State<page1> {
     icon: Icon(Icons.facebook),
     buttonColor: Colors.blue,
     onPress: () {_launchURL("https://www.facebook.com/gaurav.parmar.56211497?mibextid=ZbWKwL");},),
+   /// call features
     RadialButton(
-    icon: Icon(Icons.whatshot),
+    icon: Icon(Icons.phone),
     buttonColor: Colors.green,
-    onPress: () {},),
+    onPress: () { _launchPhoneCall("7536868981");},),
     RadialButton(
     icon: Icon(Icons.ac_unit),
     buttonColor: Colors.teal,
@@ -228,5 +229,15 @@ void _launchURL(String url) async {
     throw 'Could not launch $url';
   }
 }
+/// add your number with the call icon , it is calling in phone icon
+void _launchPhoneCall(String phoneNumber) async {
+  final url = 'tel:$phoneNumber';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch phone call';
+  }
+}
+
 
 

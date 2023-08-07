@@ -42,6 +42,7 @@ dependencies:
   fluttertoast: ^8.2.2
   animated_radial_menu: ^0.0.1
 image_picker: ^1.0.2
+flutter_phone_direct_caller: ^2.1.1
 
 dev_dependencies:
   flutter_test:
