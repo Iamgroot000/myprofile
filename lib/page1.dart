@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myprofile/projects.dart';
 import 'package:myprofile/skills.dart';
+import 'package:myprofile/whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'Experincepage.dart';
@@ -189,23 +190,33 @@ class _page1State extends State<page1> {
             child: RadialMenu(
     children: [
       ///button which is in bottom center ,
-    RadialButton(
-    icon: Icon(Icons.facebook),
-    buttonColor: Colors.blue,
-    onPress: () {_launchURL("https://www.facebook.com/gaurav.parmar.56211497?mibextid=ZbWKwL");},),
-   /// call features
-    RadialButton(
-    icon: Icon(Icons.phone),
-    buttonColor: Colors.green,
-    onPress: () { _launchPhoneCall("7536868981");},),
-    RadialButton(
+      RadialButton(
+        icon: Icon(Icons.facebook),
+        buttonColor: Colors.blue,
+        onPress: () {
+          _showUrlDialog(context, _launchURL);
+        },
+      ),
+
+      /// call features
+      RadialButton(
+        icon: Icon(Icons.phone),
+        buttonColor: Colors.green,
+        onPress: () {
+          _showPhoneNumberDialog(context);
+        },
+      ),
+
+      RadialButton(
     icon: Icon(Icons.ac_unit),
     buttonColor: Colors.teal,
     onPress: () {
     RadialButton(
     icon: Icon(Icons.whatshot),
-    buttonColor: Colors.green,
-    onPress: () {},);},),
+    buttonColor: Colors.yellow,
+    onPress: () { Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>  MychatApp ()));},);},),
     ]
     ),
     ),
@@ -238,6 +249,76 @@ void _launchPhoneCall(String phoneNumber) async {
     throw 'Could not launch phone call';
   }
 }
+
+void _showPhoneNumberDialog(BuildContext context) {
+  TextEditingController _phoneNumberController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      return AlertDialog(
+        title: Text('Enter Phone Number'),
+        content: TextField(
+          controller: _phoneNumberController,
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(labelText: 'Phone Number'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              String phoneNumber = _phoneNumberController.text;
+              Navigator.of(dialogContext).pop();
+              _launchPhoneCall(phoneNumber);
+            },
+            child: Text('Call'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showUrlDialog(BuildContext context, Function(String) launchUrlCallback) {
+  TextEditingController _urlController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      return AlertDialog(
+        title: Text('Enter URL'),
+        content: TextField(
+          controller: _urlController,
+          decoration: InputDecoration(labelText: 'URL'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              String url = _urlController.text;
+              Navigator.of(dialogContext).pop();
+              launchUrlCallback(url);
+            },
+            child: Text('Open'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
 
 
 
