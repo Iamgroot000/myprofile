@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myprofile/page1.dart';
+import 'package:myprofile/splashscreen.dart';
 
 void main() {
   runApp(MaterialApp(
     home: Scaffold(
 
       body: Center(
-        child: Profile(),
+        child: MyCustomSplashScreen(),
       ),
     ),
   ));

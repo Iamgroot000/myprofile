@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:myprofile/projects.dart';
 import 'package:myprofile/skills.dart';
 
+import 'Qualification.dart';
+
 
 
 class page1 extends StatefulWidget {
@@ -21,14 +23,13 @@ class _page1State extends State<page1> {
       child: Column(
         children: [
           Container(
-            height:630,
-            width: 400,
-            //color: Colors.white,
+            height:600,
+            width: 400,//color: Colors.white,
             child: SingleChildScrollView( // Wrap with SingleChildScrollView
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 15,),
+                  SizedBox(height: 25,),
                   CircleAvatar(
                     radius: 100,
                     backgroundImage: AssetImage('assets/gaurav.jpg'),
@@ -88,7 +89,7 @@ class _page1State extends State<page1> {
                         child: ElevatedButton(
                           onPressed: () { Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  SkillPage ()), // Replace SecondScreen() with your desired screen widget
+                            MaterialPageRoute(builder: (context) =>  SlideAnimation1  ()), // Replace SecondScreen() with your desired screen widget
                           );},
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
