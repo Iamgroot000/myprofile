@@ -163,13 +163,13 @@ class _page1State extends State<page1> {
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => MyvideoApp (),),
+                                  MaterialPageRoute(builder: (context) => MyHomePage (),),
                                 // Replace SecondScreen() with your desired screen widget
                               ); },
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                               ),
-                              child: Text("Video "),
+                              child: Text("My Documents "),
                             ),
                           ),
                         ],
