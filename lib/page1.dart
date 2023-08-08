@@ -163,7 +163,7 @@ class _page1State extends State<page1> {
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => HomePage  ()),
+                                  MaterialPageRoute(builder: (context) => MyvideoApp (),),
                                 // Replace SecondScreen() with your desired screen widget
                               ); },
                               style: ButtonStyle(
@@ -349,7 +349,7 @@ void _showUrlDialog(BuildContext context, Function(String) launchUrlCallback) {
 void _launchEmail() async {
   final Uri params = Uri(
     scheme: 'mailto',
-    path: '', // Replace with your email address
+    path: 'recipient@example.com', // Replace with your default email address
     query: 'subject=Regarding%20Your%20App&body=Hello,%20I%20have%20a%20question...', // You can customize the subject and body here
   );
 
@@ -358,7 +358,18 @@ void _launchEmail() async {
   if (await canLaunch(emailUrl)) {
     await launch(emailUrl);
   } else {
-    throw 'Could not launch email';
+    final Uri fallbackParams = Uri(
+      scheme: 'mailto',
+      path: 'gaurprmr12@gmail.com', // Replace with your fallback/default email address
+      query: 'subject=Regarding%20Your%20App&body=Hello,%20I%20have%20a%20question...',
+    );
+    final String fallbackEmailUrl = fallbackParams.toString();
+
+    if (await canLaunch(fallbackEmailUrl)) {
+      await launch(fallbackEmailUrl);
+    } else {
+      throw 'Could not launch email';
+    }
   }
 }
 

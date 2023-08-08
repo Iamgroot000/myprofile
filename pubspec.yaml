@@ -42,8 +42,12 @@ dependencies:
   fluttertoast: ^8.2.2
   animated_radial_menu: ^0.0.1
   image_picker: ^1.0.2
-
-  http: ^1.1.0
+  circular_profile_avatar: ^2.0.5
+  gallery_saver: ^2.3.2
+  device_info_plus: ^9.0.3
+  network_info_plus: ^4.0.2
+  keep_screen_on: ^2.1.0
+  permission_handler: ^10.4.3
 
   path_provider: ^2.1.0
   camera: ^0.10.5+2
