@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:myprofile/page1.dart';
-import 'package:myprofile/splashscreen.dart';
+import 'package:myprofile/signin.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);

@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myprofile/projects.dart';
 import 'package:myprofile/skills.dart';
+import 'package:myprofile/splash.dart';
 import 'package:myprofile/video.dart';
 import 'package:myprofile/whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 import 'Experincepage.dart';
 import 'Qualification.dart';
@@ -244,8 +246,12 @@ class _page1State extends State<page1> {
       RadialButton(
     icon: Icon(Icons.whatshot),
     buttonColor: Colors.yellow,
-    onPress: () { }
-    )]
+    onPress: () {
+      launchWhatsApp();
+
+    }
+    )
+    ]
     ),
     ),
     ),
@@ -371,6 +377,14 @@ void _launchEmail() async {
       throw 'Could not launch email';
     }
   }
+}
+
+launchWhatsApp() async {
+  final link = WhatsAppUnilink(
+    phoneNumber: '+91- 7579215235',
+    text: "Hey there!",
+  );
+  await launch('$link');
 }
 
 

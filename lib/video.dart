@@ -6,18 +6,7 @@ import 'dart:io';
 
 
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'File Viewer Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
+
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -65,20 +54,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('File Viewer Example'),
-      ),
+
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: _openFilePicker,
-              child: Text('Open File Picker'),
-            ),
-            SizedBox(height: 20),
-            if (_fileWidget != null) _fileWidget,
-          ],
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: Colors.black,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: _openFilePicker,
+                child: Text('Add Here'),
+              ),
+              SizedBox(height: 20),
+              if (_fileWidget != null) _fileWidget,
+            ],
+          ),
         ),
       ),
     );
