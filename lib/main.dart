@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
+
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:myprofile/page1.dart';
 import 'package:myprofile/splashscreen.dart';
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-
-      body: Center(
-        child: MyCustomLoginUI(),
-      ),
-    ),
-  ));
-}
-
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
-
   @override
   State<Profile> createState() => _ProfileState();
 }
-/// use for animation for Gaurav parmar
+
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
   late Animation<double> _scaleAnimation;
+  var imagePath = ""; // Variable to store the picked image path
 
   @override
   void initState() {
@@ -52,6 +44,19 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     _controller.forward();
   }
 
+  final ImagePicker _imagePicker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        imagePath = pickedFile.path;
+        print("this is image path $imagePath");
+      });
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -76,17 +81,21 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   fit: BoxFit.cover, // Adjust the fit as needed
                 ),
               ),
-
-
-
-
-            child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 100,
-                    backgroundImage: AssetImage('assets/gaurav.jpg'),
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: CircleAvatar(
+                      radius: 100,
+                      // backgroundImage: FileImage(File(_imagePath != null)),
+                       foregroundImage: imagePath == ""?
+                       Image.asset("assets/gaurav.jpg").image:
+                       Image.file(File(imagePath)).image,
+                        // Use FileImage for picked image
+                          // Use AssetImage for default image
+                    ),
                   ),
 
                   const SizedBox(height: 20),
@@ -105,18 +114,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                       color: Colors.grey,
                     ),
                   ),
-
                   SizedBox(height: 20),
                   OutlinedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => page1()), // Replace SecondScreen() with your desired screen widget
+                        MaterialPageRoute(builder: (context) => page1()),
                       );
                     },
                     child: Text("Let's go"),
-                  )
-
+                  ),
                 ],
               ),
             ),
@@ -127,3 +134,12 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   }
 }
 
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: Center(
+        child: MyCustomLoginUI(),
+      ),
+    ),
+  ));
+}

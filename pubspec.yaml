@@ -41,11 +41,13 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   fluttertoast: ^8.2.2
   animated_radial_menu: ^0.0.1
-image_picker: ^1.0.2
-flutter_phone_direct_caller: ^2.1.1
-http: ^1.1.0
-whatsapp: ^2.0.0
+  image_picker: ^1.0.2
 
+  http: ^1.1.0
+
+  path_provider: ^2.1.0
+  camera: ^0.10.5+2
+  video_player: ^2.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

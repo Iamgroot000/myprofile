@@ -1,8 +1,10 @@
 import 'package:animated_radial_menu/animated_radial_menu.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myprofile/projects.dart';
 import 'package:myprofile/skills.dart';
+import 'package:myprofile/video.dart';
 import 'package:myprofile/whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -41,6 +43,7 @@ class _page1State extends State<page1> {
                         radius: 100,
                         backgroundImage: AssetImage('assets/gaurav.jpg'),
                       ),
+
                       SizedBox(height: 10),
                       Text(
                         'Gaurav Parmar',
@@ -149,6 +152,28 @@ class _page1State extends State<page1> {
                           ),
                         ],
                       ),
+
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 160,
+                            child: ElevatedButton(
+                              onPressed: () {Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => HomePage  ()),
+                                // Replace SecondScreen() with your desired screen widget
+                              ); },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                              ),
+                              child: Text("Video "),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -206,18 +231,21 @@ class _page1State extends State<page1> {
           _showPhoneNumberDialog(context);
         },
       ),
+      RadialButton(
+        icon: Icon(Icons.no_encryption_gmailerrorred),
+        buttonColor: Colors.teal,
+        onPress: () {
+          _launchEmail();
+        },
+      ),
+
+
 
       RadialButton(
-    icon: Icon(Icons.ac_unit),
-    buttonColor: Colors.teal,
-    onPress: () {
-    RadialButton(
     icon: Icon(Icons.whatshot),
     buttonColor: Colors.yellow,
-    onPress: () { Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  MychatApp ()));},);},),
-    ]
+    onPress: () { }
+    )]
     ),
     ),
     ),
@@ -318,7 +346,20 @@ void _showUrlDialog(BuildContext context, Function(String) launchUrlCallback) {
 }
 
 
+void _launchEmail() async {
+  final Uri params = Uri(
+    scheme: 'mailto',
+    path: '', // Replace with your email address
+    query: 'subject=Regarding%20Your%20App&body=Hello,%20I%20have%20a%20question...', // You can customize the subject and body here
+  );
 
+  final String emailUrl = params.toString();
 
+  if (await canLaunch(emailUrl)) {
+    await launch(emailUrl);
+  } else {
+    throw 'Could not launch email';
+  }
+}
 
 
