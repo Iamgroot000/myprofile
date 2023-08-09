@@ -117,9 +117,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   SizedBox(height: 20),
                   OutlinedButton(
                     onPressed: () {
+
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => page1()),
+                        MaterialPageRoute(builder: (context) => page1(imagePath)),
                       );
                     },
                     child: Text("Let's go"),

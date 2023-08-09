@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animated_radial_menu/animated_radial_menu.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,13 +18,19 @@ import 'Qualification.dart';
 
 
 class page1 extends StatefulWidget {
-  const page1({super.key});
+  final image;
+
+  const page1( this.image, {super.key});
+  
+
 
   @override
   State<page1> createState() => _page1State();
 }
 
 class _page1State extends State<page1> {
+
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -32,155 +40,160 @@ class _page1State extends State<page1> {
           ,
           child: Column(
             children: [
-              Container(
-                height:600,
-                width: 400,
-               // color: Colors.white,
-                child: SingleChildScrollView( // Wrap with SingleChildScrollView
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 25,),
-                      CircleAvatar(
-                        radius: 100,
-                        backgroundImage: AssetImage('assets/gaurav.jpg'),
-                      ),
-
-                      SizedBox(height: 10),
-                      Text(
-                        'Gaurav Parmar',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+              Center(
+                child: Container(
+                  height:600,
+                  width: 400,
+                 // color: Colors.white,
+                  child: SingleChildScrollView( // Wrap with SingleChildScrollView
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 25,),
+                        CircleAvatar(
+                          radius: 100,
+                          foregroundImage: widget.image == ""?
+                          Image.asset("assets/gaurav.jpg").image:
+                              /// use widget.image when you want to updtae your image through previous page
+                          Image.file(File(widget.image)).image,
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'Flutter Developer',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
+
+                        SizedBox(height: 10),
+                        Text(
+                          'Gaurav Parmar',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () { Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>  SkillPage ()), // Replace SecondScreen() with your desired screen widget
-                              );},
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                              ),
-                              child: Text("Skills"),
-                            ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Flutter Developer',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
                           ),
-                        ],
-                      ),
-
-
-
-                      SizedBox(height: 10),
-                      // Divider(  // Add a divider line here
-                      //   color: Colors.blueAccent,
-                      //   height: 20,
-                      //   thickness: 1,
-                      //   indent: 30,
-                      //   endIndent: 30,
-                      // ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () { Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => MyexperienceApp  ()), // Replace SecondScreen() with your desired screen widget
-                              );},
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                              ),
-                              child: Text("Experince"),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () { Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>  MyprojectApp  ()), // Replace SecondScreen() with your desired screen widget
-                              );},
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                              ),
-                              child: Text("Projects "),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 160,
-                            child: ElevatedButton(
-                              onPressed: () { Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>  MyqualificationApp  ()), // Replace SecondScreen() with your desired screen widget
-                              );},
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                              ),
-                              child: Text("Qualifications "),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 160,
-                            child: ElevatedButton(
-                              onPressed: () {Navigator.push(
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () { Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => MyHomePage (),),
-                                // Replace SecondScreen() with your desired screen widget
-                              ); },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                  MaterialPageRoute(builder: (context) =>  SkillPage ()), // Replace SecondScreen() with your desired screen widget
+                                );},
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                ),
+                                child: Text("Skills"),
                               ),
-                              child: Text("My Documents "),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+
+
+
+                        SizedBox(height: 10),
+                        // Divider(  // Add a divider line here
+                        //   color: Colors.blueAccent,
+                        //   height: 20,
+                        //   thickness: 1,
+                        //   indent: 30,
+                        //   endIndent: 30,
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () { Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MyexperienceApp  ()), // Replace SecondScreen() with your desired screen widget
+                                );},
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                ),
+                                child: Text("Experince"),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () { Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>  MyprojectApp  ()), // Replace SecondScreen() with your desired screen widget
+                                );},
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                ),
+                                child: Text("Projects "),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 160,
+                              child: ElevatedButton(
+                                onPressed: () { Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>  MyqualificationApp  ()), // Replace SecondScreen() with your desired screen widget
+                                );},
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                ),
+                                child: Text("Qualifications "),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 160,
+                              child: ElevatedButton(
+                                onPressed: () {Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => MyHomePage (),),
+                                  // Replace SecondScreen() with your desired screen widget
+                                ); },
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                                ),
+                                child: Text("My Documents "),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+
+
                 ),
-
-
               ),
 
 
@@ -263,6 +276,9 @@ class _page1State extends State<page1> {
 
 
 
+
+  }
+  getImage(){
 
   }
 }
@@ -378,10 +394,10 @@ void _launchEmail() async {
     }
   }
 }
-
+/// For linking my whatsapp
 launchWhatsApp() async {
   final link = WhatsAppUnilink(
-    phoneNumber: '+91- 7579215235',
+    phoneNumber: '+91- 7536868981',
     text: "Hey there!",
   );
   await launch('$link');
