@@ -49,7 +49,7 @@ class _page1State extends State<page1> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 25,),
+                        SizedBox(height: 58,),
                         CircleAvatar(
                           radius: 100,
                           foregroundImage: widget.image == ""?
@@ -266,8 +266,15 @@ class _page1State extends State<page1> {
     )
     ]
     ),
+
     ),
     ),
+        Container(
+          height: 40,
+            width: 600,
+          color: Colors.yellow,
+        //  child: Center(child: Text("MyProfile")),
+        )
     ]);
 
 

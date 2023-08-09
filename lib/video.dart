@@ -3,10 +3,21 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 
-
-
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'File Upload to Firebase Storage',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -14,7 +25,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  dynamic _fileWidget;
+  List<Widget> _fileWidgets = [];
+
+  Future<void> _uploadFileToFirebase(File file) async {
+    try {
+      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('uploaded_files/${file.path.split('/').last}');
+      await ref.putFile(file);
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
 
   void _openFilePicker() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -22,8 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
     if (result != null) {
       PlatformFile file = result.files.single;
 
+      Widget fileWidget;
+
       if (file.extension == 'pdf') {
-        _fileWidget = PDFView(
+        fileWidget = PDFView(
           filePath: file.path!,
         );
       } else if (file.extension == 'mp4') {
@@ -31,30 +55,36 @@ class _MyHomePageState extends State<MyHomePage> {
           File(file.path!),
         );
         await controller.initialize();
-        _fileWidget = AspectRatio(
+        fileWidget = AspectRatio(
           aspectRatio: controller.value.aspectRatio,
           child: VideoPlayer(controller),
         );
       } else if (file.extension == 'jpg' || file.extension == 'png') {
-        _fileWidget = Image.file(
+        fileWidget = Image.file(
           File(file.path!),
           fit: BoxFit.contain,
         );
       } else {
-        _fileWidget = Text(
+        fileWidget = Text(
           'Unsupported File Type',
           style: TextStyle(fontSize: 16),
         );
       }
 
-      setState(() {});
+      await _uploadFileToFirebase(File(file.path!));
+
+      setState(() {
+        _fileWidgets.add(fileWidget);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        title: Text(''),
+      ),
       body: Center(
         child: Container(
           height: double.infinity,
@@ -63,12 +93,28 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(
-                onPressed: _openFilePicker,
-                child: Text('Add Here'),
+              Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: _openFilePicker,
+                    child: Text('Add Your Document'),
+                  ),
+                  Column(
+                    children: [
+                      OutlinedButton(onPressed: (){},
+                          child: Text("OK")),
+                    ],
+                  ),
+                ],
               ),
+
               SizedBox(height: 20),
-              if (_fileWidget != null) _fileWidget,
+              if (_fileWidgets.isNotEmpty)
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(children: _fileWidgets),
+                  ),
+                ),
             ],
           ),
         ),
